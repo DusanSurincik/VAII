@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= App\Configuration::APP_NAME ?> | EventHub</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= $link->asset('css/style.css') ?>">
 </head>
 <body>
@@ -21,6 +22,7 @@
     <nav class="main-nav">
         <ul>
             <li><a href="<?= $link->url('home.index') ?>">Podujatia</a></li>
+            <li><a href="<?= $link->url('event.add') ?>">Pridať podujatie</a></li>
             <li><a href="#">Miesta</a></li>
             <li><a href="#" class="btn-login">Prihlásiť / Registrovať</a></li>
         </ul>

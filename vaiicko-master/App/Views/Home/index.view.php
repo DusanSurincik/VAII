@@ -9,46 +9,36 @@
 </section>
 
 <section class="events-section">
-    <h2>Najbližšie podujatia</h2>
-    <div class="events-grid">
+    <h2>Nadchádzajúce podujatia</h2>
 
-        <article class="event-card">
-            <a href="<?= $link->url('home.detail') ?>" class="card-link-wrapper">
-                <img src="<?= $link->asset('images/concert.jpg') ?>" alt="Koncert kapely Nirvana" class="card-image">
-                <div class="card-content">
-                    <h3>Koncert kapely Nirvana</h3>
-                    <p class="meta">📅 25. Nov 2024 | 📍 NTC Aréna</p>
-                    <p class="price">Cena od: 25,00 €</p>
-                    <span class="btn-primary">Rezervovať lístky</span>
+    <?php if (empty($events)): ?>
+        <p>Momentálne nie sú k dispozícii žiadne podujatia.</p>
+    <?php else: ?>
+        <div class="events-grid">
+            <?php foreach ($events as $event): ?>
+                <div class="event-card">
+                    <?php if ($event->getImage()): ?>
+                        <img src="<?= $link->asset($event->getImage()) ?>"
+                             alt="<?= htmlspecialchars($event->getTitle()) ?>"
+                             class="card-image"
+                             style="object-fit: cover; width: 100%;">
+                    <?php endif; ?>
+                    <div class="card-content">
+                        <h3><?= htmlspecialchars($event->getTitle()) ?></h3>
+                        <p class="meta">
+                            📅 <?= date('d.m.Y H:i', strtotime($event->getDate())) ?><br>
+                            📍 <?= htmlspecialchars($event->getLocation()) ?>
+                        </p>
+                        <p><?= htmlspecialchars($event->getDescription()) ?></p>
+                        <p class="price">
+                            <?= $event->getPrice() > 0 ? number_format($event->getPrice(), 2, ',', ' ') . ' €' : 'Zadarmo' ?>
+                        </p>
+                        <a href="?c=event&a=detail&id=<?= $event->getId() ?>" class="btn-primary">Detail</a>
+                    </div>
                 </div>
-            </a>
-        </article>
-
-        <article class="event-card">
-            <a href="<?= $link->url('home.detail') ?>" class="card-link-wrapper">
-                <img src="<?= $link->asset('images/hamlet.jpg') ?>" alt="Divadelné predstavenie Hamlet" class="card-image">
-                <div class="card-content">
-                    <h3>Divadelné predstavenie Hamlet</h3>
-                    <p class="meta">📅 02. Dec 2024 | 📍 SND</p>
-                    <p class="price">Cena od: 15,00 €</p>
-                    <span class="btn-primary">Rezervovať lístky</span>
-                </div>
-            </a>
-        </article>
-
-        <article class="event-card">
-            <a href="<?= $link->url('home.detail') ?>" class="card-link-wrapper">
-                <img src="<?= $link->asset('images/slovan.jpg') ?>" alt="Hokejový zápas" class="card-image">
-                <div class="card-content">
-                    <h3>Hokejový zápas Slovan</h3>
-                    <p class="meta">📅 10. Dec 2024 | 📍 Zimný štadión</p>
-                    <p class="price">Cena od: 12,00 €</p>
-                    <span class="btn-primary">Rezervovať lístky</span>
-                </div>
-            </a>
-        </article>
-
-    </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </section>
 
 <section class="categories-section">

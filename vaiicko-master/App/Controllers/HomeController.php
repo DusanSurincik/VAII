@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Framework\Core\BaseController;
 use Framework\Http\Request;
 use Framework\Http\Responses\Response;
+use App\Models\Event;
 
 class HomeController extends BaseController
 {
@@ -21,7 +22,11 @@ class HomeController extends BaseController
      */
     public function index(Request $request): Response
     {
-        return $this->html();
+        $events = Event::getAll(); // Statická metóda getAll() vytiahne záznamy z tabuľky events
+
+        return $this->html([
+            'events' => $events
+        ]);
     }
 
     /**
