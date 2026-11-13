@@ -24,6 +24,7 @@
             <li><a href="<?= $link->url('home.index') ?>">Podujatia</a></li>
             <li><a href="<?= $link->url('event.add') ?>">Pridať podujatie</a></li>
             <li><a href="#">Miesta</a></li>
+            <li><a href="<?= $link->url('category.index') ?>">Kategórie</a></li>
             <li><a href="#" class="btn-login">Prihlásiť / Registrovať</a></li>
         </ul>
     </nav>

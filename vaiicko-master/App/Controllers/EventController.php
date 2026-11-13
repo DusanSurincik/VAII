@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Category;
 use Framework\Core\BaseController;
 use Framework\Http\Request;
 use Framework\Http\Responses\Response;
@@ -36,7 +37,8 @@ class EventController extends BaseController
     public function add(Request $request): Response
     {
         return $this->html([
-            'event' => new Event()
+            'event' => new Event(),
+            'categories' => Category::getAll()
         ]);
     }
 
@@ -53,6 +55,12 @@ class EventController extends BaseController
         $event->setDate($request->value('date'));
         $event->setLocation($request->value('location'));
         $event->setPrice((float) $request->value('price'));
+        $rawCategoryId = $request->value('category_id');
+        if (is_array($rawCategoryId)) {
+            return $this->redirect($this->url('home.index'));
+        }
+
+        $event->setCategoryId($rawCategoryId ? (int) $rawCategoryId : null);
 
         // Zjednodušený upload obrázka
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -84,7 +92,8 @@ class EventController extends BaseController
 
         // Znovu použijeme pohľad add.view.php, keďže formulár je rovnaký
         return $this->html([
-            'event' => $event
+            'event' => $event,
+            'categories' => Category::getAll()
         ], 'add');
     }
 

@@ -1,7 +1,15 @@
 <?php
 /** @var \App\Models\Event $event */
 /** @var \Framework\Support\LinkGenerator $link */
+
 ?>
+
+<?php if ($event->getCategory()): ?>
+    🏷️ <strong>Kategória:</strong>
+    <a href="<?= $link->url('category.detail', ['id' => $event->getCategory()->getId()]) ?>">
+        <?= htmlspecialchars($event->getCategory()->getName()) ?>
+    </a><br>
+<?php endif; ?>
 
 <div class="event-container">
     <div class="event-details">

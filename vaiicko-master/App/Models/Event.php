@@ -13,6 +13,7 @@ class Event extends Model
     protected ?string $location = null;
     protected ?float $price = null;
     protected ?string $image = null;
+    protected ?int $category_id = null;
 
     public static function getTableName(): string
     {
@@ -82,5 +83,20 @@ class Event extends Model
     public function setImage(?string $image): void
     {
         $this->image = $image;
+    }
+
+    public function getCategoryId(): ?int
+    {
+        return $this->category_id;
+    }
+
+    public function setCategoryId(?int $category_id): void
+    {
+        $this->category_id = $category_id;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category_id ? Category::getOne($this->category_id) : null;
     }
 }

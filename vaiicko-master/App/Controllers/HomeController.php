@@ -6,6 +6,7 @@ use Framework\Core\BaseController;
 use Framework\Http\Request;
 use Framework\Http\Responses\Response;
 use App\Models\Event;
+use App\Models\Category;
 
 class HomeController extends BaseController
 {
@@ -22,11 +23,23 @@ class HomeController extends BaseController
      */
     public function index(Request $request): Response
     {
-        $events = Event::getAll(); // Statická metóda getAll() vytiahne záznamy z tabuľky events
+        $categories = Category::getAll();
+        $categoryId = (int) $request->value('category_id');
+        $selectedCategory = null;
+
+        if ($categoryId > 0) {
+            $selectedCategory = Category::getOne($categoryId);
+            $events = Event::getAll('category_id = ?', [$categoryId]);
+        } else {
+            $events = Event::getAll();
+        }
 
         return $this->html([
-            'events' => $events
+            'events' => $events,
+            'categories' => $categories,
+            'selectedCategory' => $selectedCategory
         ]);
+
     }
 
     /**

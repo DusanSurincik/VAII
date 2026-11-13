@@ -1,6 +1,7 @@
 <?php
 /** @var \App\Models\Event $event */
 /** @var \Framework\Support\LinkGenerator $link */
+/** @var \App\Models\Category[] $categories */
 ?>
 
 <div class="event-container" style="grid-template-columns: 1fr; max-width: 800px;">
@@ -20,6 +21,18 @@
             <div class="mb-3">
                 <label for="description" class="form-label fw-bold">Popis</label>
                 <textarea class="form-control" id="description" name="description" rows="5" required><?= htmlspecialchars($event->getDescription() ?? '') ?></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="category_id" class="form-label fw-bold">Kategória</label>
+                <select class="form-select" id="category_id" name="category_id">
+                    <option value="">-- Bez kategórie --</option>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?= $category->getId() ?>" <?= $event->getCategoryId() === $category->getId() ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($category->getName()) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div class="row">

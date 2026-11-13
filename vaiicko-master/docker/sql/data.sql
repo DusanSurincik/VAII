@@ -1,14 +1,30 @@
-CREATE TABLE `events` (
-                          `id` INT AUTO_INCREMENT PRIMARY KEY,
-                          `title` VARCHAR(255) NOT NULL,
-                          `description` TEXT NOT NULL,
-                          `date` DATETIME NOT NULL,
-                          `location` VARCHAR(255) NOT NULL,
-                          `price` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
-                          `image` VARCHAR(255) DEFAULT NULL
+CREATE TABLE `categories` (
+   `id` INT AUTO_INCREMENT PRIMARY KEY,
+   `name` VARCHAR(100) NOT NULL,
+   `description` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `events` (`title`, `description`, `date`, `location`, `price`, `image`) VALUES
-    ('Koncert kapely Nirvana', 'Živá hudba pod holým nebom a skvelá atmosféra.', '2026-07-15 19:00:00', 'Mestský park, Žilina', 15.00, 'images/concert.jpg'),
-    ('Divadelná hra Hamlet', 'Klasická tragédia od Shakespeara.', '2026-08-20 18:30:00', 'Mestské divadlo, Žilina', 12.50, 'images/hamlet.jpg'),
-    ('Slovan - HK Nitra', 'Veľkolepý zápas rivalov.', '2026-09-22 21:00:00', 'Hokejový štadión, Žilina', 5.00, 'images/slovan.jpg');
+CREATE TABLE `events` (
+   `id` INT AUTO_INCREMENT PRIMARY KEY,
+   `category_id` INT DEFAULT NULL,
+   `title` VARCHAR(255) NOT NULL,
+   `description` TEXT NOT NULL,
+   `date` DATETIME NOT NULL,
+   `location` VARCHAR(255) NOT NULL,
+   `price` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+   `image` VARCHAR(255) DEFAULT NULL,
+      CONSTRAINT `fk_event_category`
+         FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`)
+         ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `categories` (`id`, `name`, `description`) VALUES
+   (1, 'Hudba', 'Koncerty, festivaly a hudobné vystúpenia.'),
+   (2, 'Divadlo', 'Činohra, muzikály a divadelné predstavenia.'),
+   (3, 'Šport', 'Športové zápasy, turnaje a bežecké podujatia.'),
+   (4, 'Prednášky', 'Workshopy, konferencie a vzdelávacie diskusie.');
+
+INSERT INTO `events` (`category_id`,`title`, `description`, `date`, `location`, `price`, `image`) VALUES
+    (1, 'Koncert kapely Nirvana', 'Živá hudba pod holým nebom a skvelá atmosféra.', '2026-07-15 19:00:00', 'Mestský park, Žilina', 15.00, 'images/concert.jpg'),
+    (2, 'Divadelná hra Hamlet', 'Klasická tragédia od Shakespeara.', '2026-08-20 18:30:00', 'Mestské divadlo, Žilina', 12.50, 'images/hamlet.jpg'),
+    (3, 'Slovan - HK Nitra', 'Veľkolepý zápas rivalov.', '2026-09-22 21:00:00', 'Hokejový štadión, Žilina', 5.00, 'images/slovan.jpg');
